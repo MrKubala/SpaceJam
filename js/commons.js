@@ -1,10 +1,10 @@
-let commons = {
+const COMMONS = {
 
-   player : "Sad Capitan",
-      stats : {
-         ShipHull : 100,
-         Population : 6000000,
-         Food : 100
-      }
+   player: "Sad Capitan",
+   stats: {
+      ShipHull: 100,
+      Population: 6000000,
+      Food: 100
+   }
 
-}
+};
