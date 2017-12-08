@@ -1,6 +1,6 @@
 Player = function (size, scene) {
    // Call the super class BABYLON.Mesh
-   BABYLON.Mesh.call(this, "BattleScene", scene);
+   BABYLON.Mesh.call(this, "Player", scene);
    // Creates a our ship
    let vd = BABYLON.VertexData.CreateBox(size);
    // Apply the box shape to our mesh
@@ -26,18 +26,30 @@ Player = function (size, scene) {
 };
 
 Map = function (scene) {
-
    this.scrollSpeed = 40;
    BABYLON.Mesh.call(this, "Map", scene);
    let vd = BABYLON.VertexData.CreateBox(1);
-   vd.applyToMesh(this, false);
-
+   //vd.applyToMesh(this, false);
    this.scaling.y = 0.1;
    this.scaling.x = 20;
    this.scaling.z = 820;
    this.position.x = 0;
    this.position.y = 0;
    this.position.z = this.scaling.z/2 - 20;
+
+   // The box creation
+   var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+
+   // The sky creation
+   var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+   skyboxMaterial.backFaceCulling = false;
+   skyboxMaterial.diffuseColor = new BABYLON.Color3(0, 0, 0);
+   skyboxMaterial.specularColor = new BABYLON.Color3(0, 0, 0);
+   skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("assets/skybox/skybox", scene);
+   skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+
+   // box + sky = skybox !
+   skybox.material = skyboxMaterial;
 };
 
 Player.prototype = Object.create(BABYLON.Mesh.prototype);
