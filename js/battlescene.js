@@ -1,5 +1,3 @@
-let map;
-
 Player = function (size, scene) {
    // Call the super class BABYLON.Mesh
    BABYLON.Mesh.call(this, "BattleScene", scene);
@@ -24,10 +22,12 @@ Player = function (size, scene) {
    //Player game attributes
    this.health = 100;
 
-   map = new Map (scene);
+   
 };
 
 Map = function (scene) {
+
+   this.scrollSpeed = 40;
    BABYLON.Mesh.call(this, "Map", scene);
    let vd = BABYLON.VertexData.CreateBox(1);
    vd.applyToMesh(this, false);
@@ -48,6 +48,16 @@ Map.prototype.constructor = Map;
 Player.prototype.update = function (deltaTime) {
    this.move(deltaTime);
 };
+Map.prototype.update = function (deltaTime) {
+   this.move(deltaTime);
+}
+
+Map.prototype.move = function (deltaTime) {
+   if (map.position.z >= (-map.scaling.z)/2){
+      map.position.z -= this.scrollSpeed * deltaTime 
+   }
+   
+}
 
 Player.prototype.move = function (deltaTime) {
    if (INPUT.d) {
