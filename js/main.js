@@ -1,6 +1,7 @@
 let canvas = document.getElementById("renderCanvas"); // Get the canvas element
 let engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 let player;
+let scene;
 
 window.addEventListener("resize", function () { // Watch for browser/canvas resize events
    engine.resize();
@@ -8,7 +9,7 @@ window.addEventListener("resize", function () { // Watch for browser/canvas resi
 
 let createScene = function () {
    // Create the scene space
-   let scene = new BABYLON.Scene(engine);
+   scene = new BABYLON.Scene(engine);
 
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
@@ -16,6 +17,8 @@ let createScene = function () {
 
    player = new Player(1, scene);
 
+   let map = new Map (scene);
+   
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.UniversalCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
 
@@ -32,7 +35,7 @@ let createScene = function () {
    return scene;
 };
 
-let scene = createScene(); //Call the createScene function
+createScene(); //Call the createScene function
 
 engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
    let deltaTime = engine.getDeltaTime() / 1000;
