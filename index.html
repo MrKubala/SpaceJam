@@ -18,7 +18,10 @@
             height: 100%;
             touch-action: none;
         }
+        @font-face { font-family: "xirod"; src: url('assets/xirod.ttf'); }
     </style>
+
+    <script src="fontfaceobserver.js"></script>
 
     <script src="https://preview.babylonjs.com/babylon.js"></script>
     <script src="https://preview.babylonjs.com/gui/babylon.gui.min.js"></script>
@@ -26,12 +29,21 @@
     <script src="js/dialogwindow.js"></script>
     <script src="js/battlescene.js"></script>
     <script src="js/INPUT.js"></script>
-    
 </head>
 
 <body>
 <canvas id="renderCanvas" touch-action="none"></canvas>
+
 <script src="js/main.js"></script>
+<script>
+   let font = new FontFaceObserver('xirod', {});
+
+   font.load().then(function () {
+      main();
+   }, function () {
+      console.log('Font is not available');
+   });
+</script>
 </body>
 
 </html>
