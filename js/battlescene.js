@@ -15,6 +15,8 @@ Player = function (size, scene) {
 
    // Movement attributes
    this.speed = 10;
+   this.acceleration = 0.04;
+   this.velocity = 0;
    this.moveLeft = false;
    this.moveRight = false;
    //this.rotationSpeed = 1;
@@ -29,7 +31,7 @@ Map = function (scene) {
    this.scrollSpeed = 40;
    BABYLON.Mesh.call(this, "Map", scene);
    let vd = BABYLON.VertexData.CreateBox(1);
-   //vd.applyToMesh(this, false);
+   vd.applyToMesh(this, false);
    this.scaling.y = 0.1;
    this.scaling.x = 20;
    this.scaling.z = 820;
@@ -73,18 +75,39 @@ Map.prototype.move = function (deltaTime) {
 
 Player.prototype.move = function (deltaTime) {
    if (INPUT.d) {
-      if (player.position.x <= map.scaling.x/2 - 2){
-         player.position.x += this.speed * deltaTime;
-      }      
+
+      player.velocity += this.acceleration * deltaTime;
+     
    }
    if (INPUT.a) {
-      if (player.position.x >= -(map.scaling.x/2) + 2){
-         player.position.x -= this.speed * deltaTime;
-      }
+
+      player.velocity -= this.acceleration * deltaTime;
+
    }
    if (INPUT.space) {
       //player.position.x -= this.speed * deltaTime;
    }
+   if ( (!INPUT.d && !INPUT.a)  && Math.abs(player.velocity) < 0.01){
+      player.velocity = 0
+   }if (player.velocity > 2){
+      player.velocity = 2
+   }
+
+   if (player.position.x >= -(map.scaling.x/2)){
+      player.position.x += player.velocity;
+   }else{
+      player.position.x = -(map.scaling.x/2);
+      player.velocity = 0;
+   }
+   
+   if (player.position.x <= map.scaling.x/2){
+      player.position.x += player.velocity;
+   }else{
+      player.position.x = map.scaling.x/2;
+      player.velocity = 0;
+   }
+   console.log(player.velocity);
+   
    /*if (INPUT.w) {
       player.position.z += this.speed * deltaTime;
    }
