@@ -20,6 +20,8 @@ let createScene = function () {
    // This is where you create and manipulate meshes
    let sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {}, scene);
 
+   showDialogWindow();
+
    return scene;
 };
 
