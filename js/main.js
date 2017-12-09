@@ -4,7 +4,6 @@ let player;
 let scene;
 let map;
 let asteroidField = [];
-let music;
 
 window.addEventListener("resize", function () { // Watch for browser/canvas resize events
    engine.resize();
@@ -12,27 +11,31 @@ window.addEventListener("resize", function () { // Watch for browser/canvas resi
 
 let fadeInMusic = function (deltaTime) {
    let maxVolume = 0.1;
-   if (music.getVolume() < maxVolume) {
-      music.setVolume(music.getVolume() + (0.01 * deltaTime));
+   if (SOUNDS.music.getVolume() < maxVolume) {
+      SOUNDS.music.setVolume(SOUNDS.music.getVolume() + (0.01 * deltaTime));
    }
    else {
-      music.setVolume(maxVolume);
+      SOUNDS.music.setVolume(maxVolume);
    }
 };
+
+function loadSounds() {
+   SOUNDS.music = new BABYLON.Sound("Music", "assets/bensound-scifi.mp3", scene,
+           function () {
+              // Sound has been downloaded & decoded
+              SOUNDS.music.setVolume(0);
+              SOUNDS.music.play();
+           }, {loop: true});
+
+   SOUNDS.spaceAmbient = new BABYLON.Sound("spaceAmbient", "assets/sounds/ambience-space-00.wav", scene, null, {});
+   SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene, null, {});
+}
 
 let createScene = function () {
    // Create the scene space
    scene = new BABYLON.Scene(engine);
    scene.debugLayer.show();
-
-   // Add music
-   music = new BABYLON.Sound("Music", "assets/bensound-scifi.mp3", scene,
-           function () {
-              // Sound has been downloaded & decoded
-              music.setVolume(0);
-              music.play();
-           },
-           {loop: true});
+   loadSounds();
 
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
