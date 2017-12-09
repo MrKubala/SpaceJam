@@ -51,10 +51,10 @@ let createScene = function () {
 
    player = new Player(1, scene);
    map = new Map(scene);
-   for (let i = 2400; i > 0; i = i - 10) {
+   for (let i = 2400; i >= 0; i -= 10) {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
-   for (let i = 2400; i > 0; i = i - 10)  {
+   for (let i = 2400; i >= 0;  i -=100)  {
         foodList.push(new Food(scene, map.scaling.x, i));
      }
    // Add a camera to the scene and attach it to the canvas

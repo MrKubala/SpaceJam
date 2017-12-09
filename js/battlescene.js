@@ -14,16 +14,10 @@ Player = function (size, scene) {
 
    // Movement attributes
    this.speed = 10;
-   this.acceleration = 0.04;
+   this.acceleration = 0.1;
    this.velocity = 0;
    this.moveLeft = false;
    this.moveRight = false;
-   //this.rotationSpeed = 1;
-
-   //Player game attributes
-   this.health = 100;
-   this.food = 0;
-
    this.velocityz = 0;
 };
 
@@ -128,13 +122,17 @@ Food.prototype.move = function (deltaTime) {
    }
 }
 Asteroid.prototype.dies = function (){
-   player.health -= 10;
-   console.log("Player Health count: " + player.health  );
+   COMMONS.stats.ShipHull -= 10;
+   if(COMMONS.stats.ShipHull <= 0) {
+      player.isAlive = false;
+      console.log("Ship is destroyed,game should end here !");
+   }
+   console.log("Player Health count: " + COMMONS.stats.ShipHull  );
    this.isAlive = false;
 }
 Food.prototype.dies = function (){
-   player.food += 1;
-   console.log("Food count: " + player.food );
+   COMMONS.stats.Food += 1;
+   console.log("Food count: " + COMMONS.stats.Food );
    this.isAlive = false;
 }
 Map.prototype.move = function (deltaTime) {
