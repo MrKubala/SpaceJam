@@ -30,7 +30,7 @@ let createScene = function () {
       INPUT[evt.sourceEvent.key.toLowerCase()] = false;
    }));
 
-   showDialogWindow();
+   showEventWindow();
 
    return scene;
 };
