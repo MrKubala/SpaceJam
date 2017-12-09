@@ -78,7 +78,7 @@ function getOptionButton(optionId = 'optionButton', eventOptions) {
    return buttonFrame;
 }
 
-function getContinueButton(optionId = 'continueButton') {
+function getContinueButton(functionToCall, optionId = 'continueButton') {
    let buttonFrame = new BABYLON.GUI.Rectangle();
    buttonFrame.paddingTop = 10;
    buttonFrame.width = "1200px";
@@ -94,11 +94,7 @@ function getContinueButton(optionId = 'continueButton') {
    button.thickness = 0;
    buttonFrame.addControl(button);
 
-   button.onPointerUpObservable.add(function () {
-      SOUNDS.menuSelect.play();
-      isLevelPlaying = true;
-      _advancedTexture.dispose();
-   });
+   button.onPointerUpObservable.add(functionToCall);
 
    return buttonFrame;
 }
@@ -130,7 +126,7 @@ function showEventWindow() {
    panel.addControl(getOptionButton('option2', randomEvent.options[2]));
 }
 
-function showTurnSummaryWindow(eventOptions) {
+function showTurnSummaryWindow(eventOption) {
    // GUI
    let uiTexture = getCleanAdvancedTextureForUI();
 
@@ -147,11 +143,13 @@ function showTurnSummaryWindow(eventOptions) {
    panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
    uiTexture.addControl(panel);
 
-   let randomEvent = COMS.event.eventVariations[Math.floor(Math.random() * COMS.event.eventVariations.length)];
-
-   panel.addControl(getAlertTitle(COMS.summary.title));
-   panel.addControl(getAlertDescription(randomEvent.description));
-   panel.addControl(getContinueButton());
+   panel.addControl(getAlertTitle(COMS.event.title));
+   panel.addControl(getAlertDescription(eventOption.effectdescription));
+   panel.addControl(getContinueButton(function () {
+      SOUNDS.menuSelect.play();
+      isLevelPlaying = true;
+      _advancedTexture.dispose();
+   }));
 }
 
 function showShipDestroyedWindow() {
@@ -208,7 +206,13 @@ function showIntroWindow() {
 
    panel.addControl(getAlertTitle(COMS.intro.title));
    panel.addControl(getAlertDescription(COMS.intro.description));
-   panel.addControl(getContinueButton(function() {
+   panel.addControl(getContinueButton(function () {
+      SOUNDS.menuSelect.play();
       isLevelPlaying = true;
+      _advancedTexture.dispose();
    }));
+}
+
+function showStats(){
+
 }
