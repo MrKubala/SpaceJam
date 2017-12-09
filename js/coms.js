@@ -233,8 +233,28 @@ const COMS = {
    Dzielni pionierzy wyruszają w podróż, natomiast nienawistne meteory pozostają w pogoni.`
          
       },
-      destination: {
+      destination_good: {
          title: 'Dotarliście do celu',
-         description: ""
-      }
+         description: `Gratulacje Kapitanie!
+Udało ci się dotrzeć do celu podróży a przy tym uratować ` + COMMONS.stats.Population + ` ludzi. 
+Dzięki tobie czeka nas wspaniała przyszłość na tej planecie, którą na twoją cześć nazwaliśmy Ziemia 2.0.
+         `
+      },
+      destination_bad: {
+         title: 'Dotarliście do celu',
+         description:  `Kapitanie!
+Dotarliśmy do celu naszej podróż, lecz nasz triumf został przyćmiony przez wiadomości od naszych naukowców. 
+
+Niestety `+ COMMONS.stats.Population +` ludzi to za mało by odtworzyć naszą cywilizację na tej planecie, jedne co nam pozostaje to powolne wymarcie.
+`
+ 
+      },
+      destination_mad: {
+            title: 'Dotarliście do celu',
+            description:  `Kapitanie!
+Ta wyprawa była kompletną porażką, prawie wszyscy pasażerowie są martwi, a zbrodnie których dopuściliśmy się w tej podróży są niewybaczalne. 
+
+Jedyne co nam pozostaje to walka o przeżycie na tej nowej planecie, aż ostatni człowiek zniknie z tej galaktyki. 
+`
+         }
    };
