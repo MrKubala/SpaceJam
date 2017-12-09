@@ -50,13 +50,13 @@ function loadSounds() {
            }, {});
 }
 
-function initializeActors() {
+function initializeActors(mapsize, scrollSpeed, asteroidDensity, foodDensity) {
    player = new Player(1, scene);
-   map = new Map(scene);
-   for (let i = 2400; i >= 0; i -= 10) {
+   map = new Map(scene,scrollSpeed,mapsize);
+   for (let i = mapsize - 20; i >= 0; i -= asteroidDensity) {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
-   for (let i = 2400; i >= 0; i -= 100) {
+   for (let i = mapsize - 20; i >= 0; i -= foodDensity) {
       foodList.push(new Food(scene, map.scaling.x, i));
    }
 }
@@ -70,7 +70,7 @@ let createScene = function () {
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
    let light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
-   initializeActors();
+   initializeActors(COMMONS.mapvalues.mapsize,COMMONS.mapvalues.scrollspeed,COMMONS.mapvalues.asteroiddensity,COMMONS.mapvalues.fooddensity);
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
 

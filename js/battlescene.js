@@ -23,14 +23,14 @@ Player = function (size, scene) {
    this.velocityz = 0;
 };
 
-Map = function (scene) {
-   this.scrollSpeed = 40;
+Map = function (scene,scrollSpeed ,mapSize) {
+   this.scrollSpeed = scrollSpeed;
    BABYLON.Mesh.call(this, "Map", scene);
    let vd = BABYLON.VertexData.CreateBox(1);
    //vd.applyToMesh(this, false);
    this.scaling.y = 0.1;
    this.scaling.x = 20;
-   this.scaling.z = 2420;
+   this.scaling.z = mapSize;
    this.position.x = 0;
    this.position.y = 0;
    this.position.z = this.scaling.z/2 - 20;
