@@ -40,7 +40,7 @@ Map = function (scene) {
    this.position.z = this.scaling.z/2 - 20;
 
    // The box creation
-   var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
+   this.skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
 
    // The sky creation
    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
@@ -51,7 +51,7 @@ Map = function (scene) {
    skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
 
    // box + sky = skybox !
-   skybox.material = skyboxMaterial;
+   this.skybox.material = skyboxMaterial;
 
 };
 
@@ -77,6 +77,7 @@ Player.prototype.update = function (deltaTime) {
 };
 Map.prototype.update = function (deltaTime) {
    this.move(deltaTime);
+   this.skybox.rotation.x += 0.004 * deltaTime;
 }
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);

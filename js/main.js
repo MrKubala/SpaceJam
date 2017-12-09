@@ -32,9 +32,10 @@ function loadSounds() {
               SOUNDS.spaceAmbient.setVolume(0);
               SOUNDS.spaceAmbient.play();
            }, {loop: true});
-   SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene, function(){
-      SOUNDS.menuSelect.setVolume(0.2);
-   }, {});
+   SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene,
+           function () {
+              SOUNDS.menuSelect.setVolume(0.2);
+           }, {});
 }
 
 let createScene = function () {
@@ -64,7 +65,7 @@ let createScene = function () {
       INPUT[evt.sourceEvent.key.toLowerCase()] = false;
    }));
 
-   showEventWindow();
+   // showEventWindow();
 
    return scene;
 };
