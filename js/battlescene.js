@@ -1,3 +1,5 @@
+let isLevelFinished = false; 
+
 Player = function (size, scene) {
    // Call the super class BABYLON.Mesh
    BABYLON.Mesh.call(this, "Player", scene);
@@ -177,5 +179,8 @@ Player.prototype.move = function (deltaTime) {
    }else{
       player.position.x = map.scaling.x/2;
       player.velocity = 0;
+   }
+   if(player.position.z >= map.scaling.z/4){
+      isLevelFinished = true;
    }
 };

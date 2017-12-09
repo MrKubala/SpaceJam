@@ -114,6 +114,17 @@ function render() {
       } else {
          firstFrame = false;
       }
+      if(isLevelFinished){
+        player.dispose();
+        map.dispose();
+        foodList.forEach(function (food, index) {
+                food.dispose();
+        });
+        asteroidField.forEach(function (asteroid, index) {
+                asteroid.dispose();
+        });
+        showEventWindow();
+      }
       scene.render();
    });
 }
