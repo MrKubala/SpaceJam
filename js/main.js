@@ -51,10 +51,10 @@ let createScene = function () {
 
    player = new Player(1, scene);
    map = new Map(scene);
-   for (let i = 2400;i = i - 10;i <= 0)  {
+   for (let i = 2400; i > 0; i = i - 10) {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
-   for (let i = 2400;i = i - 100;i <= 0)  {
+   for (let i = 2400; i > 0; i = i - 10)  {
         foodList.push(new Food(scene, map.scaling.x, i));
      }
    // Add a camera to the scene and attach it to the canvas
@@ -76,19 +76,33 @@ let createScene = function () {
 
 function main() {
    createScene(); //Call the createScene function
+   scene.executeWhenReady(function () {
+      setTimeout(render, 1000);
+   });
+}
 
+function updateAsteroids(deltaTime) {
+   asteroidField.forEach(function (asteroid, index) {
+      asteroid.update(deltaTime);
+      if (asteroid.isAlive === false) {
+         asteroid.dispose();
+         asteroidField.splice(index, 1);
+      }
+   });
+}
+
+function render() {
+   let firstFrame = true;
    engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
       let deltaTime = engine.getDeltaTime() / 1000;
       fadeInSound(deltaTime, SOUNDS.music, 0.05);
       fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
       player.update(deltaTime);
       map.update(deltaTime);
-      for (a of asteroidField) {
-         a.clean()
-         a.update(deltaTime);
-         if(!a.isAlive){
-                asteroidField.pop(a.index);
-        }
+      if(!firstFrame){
+         updateAsteroids(deltaTime);
+      } else {
+         firstFrame = false;
       }
       for (f of foodList) {
         f.clean();

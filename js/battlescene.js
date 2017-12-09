@@ -94,8 +94,8 @@ Map.prototype.update = function (deltaTime) {
 }
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.intersectsMesh(player, false)){
-      //this.dies();
+   if(this.position.z - player.position.z < 10 && this.intersectsMesh(player, false)){
+      this.dies();
    }
    
 }
@@ -121,16 +121,13 @@ Asteroid.prototype.move = function (deltaTime) {
 }
 Food.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
-      this.position.z -= map.scrollSpeed * deltaTime 
+      this.position.z -= map.scrollSpeed * deltaTime
    }
 }
 Asteroid.prototype.dies = function (){
-   //this.isAlive = false;
-   //this.dispose();
-   //console.log(this);
-   //this.isVisible = false;
-   //player.health = player.health - 1;
-   //console.log(player.health );
+   player.health = player.health - 1;
+   console.log(player.health );
+   this.isAlive = false;
 }
 Map.prototype.move = function (deltaTime) {
    if (map.position.z >= (-map.scaling.z)/2){
