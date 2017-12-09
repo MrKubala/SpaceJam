@@ -180,11 +180,7 @@ Budowana przez dziesięciolecia ostateczna nadzieja ludzkości mająca zapewnić
 Jak się z tym czujesz w swojej kapitańskiej kapsule? Dobrze, że choć nie masz jak popełnić bezbolesnego samobójstwa.
 Powinieneś powoli gnić przez kolejne 10 lat. I tak to za mało abyś odpukutował swoje czyny...`
    },
- summary: {
-      title: "WSTEP",
-      continueButton: "START"
-   },
-   shipDestroyed: {
+   intro: {
       title: "POCZATEK PODROZY",
       description: `
 Ziemia została zniszczona przez chmurę meteorytów, teraz jedyna pozostałą grupą ludzi jest ta zebrana na Arce, 600 000 osób zawieszonych w przestrzeni, cel podróży życia, Słońce 2.0 niedawno odkryta gwiazda, z potencjalnym nowym domem. 
@@ -194,5 +190,4 @@ Czy wystarczy im jedzenia ? Jedyna szansa w zbieraniu pozostałosci z wczesniejs
 Dzielni pionierzy wyruszają w podróż, natomiast nienawistne meteory pozostają w pogoni.`
       
    }
-   
 };

@@ -7,7 +7,7 @@ let asteroidField = [];
 let foodList = [];
 
 let isLevelFinished = false;
-let isLevelPlaying = true;
+let isLevelPlaying = false;
 
 window.addEventListener("resize", function () { // Watch for browser/canvas resize events
    engine.resize();
@@ -165,10 +165,14 @@ function render() {
    let firstFrame = true;
    engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
       let deltaTime = engine.getDeltaTime() / 1000;
-      fadeInSound(deltaTime, SOUNDS.music, 0.05);
-      fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
 
-      if (isLevelPlaying) {
+      if(COMMONS.gameStatus === 0){
+         showIntroWindow();
+         COMMONS.gameStatus = 1;
+      } else if (isLevelPlaying) {
+
+         fadeInSound(deltaTime, SOUNDS.music, 0.05);
+         fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
 
          player.update(deltaTime);
          map.update(deltaTime);

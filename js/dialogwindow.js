@@ -181,3 +181,34 @@ function showShipDestroyedWindow() {
    panel.addControl(getAlertTitle(COMS.shipDestroyed.title));
    panel.addControl(getAlertDescription(COMS.shipDestroyed.description));
 }
+
+function showIntroWindow() {
+   // GUI
+   let uiTexture = getCleanAdvancedTextureForUI();
+
+   // Background
+   let blackBackground = new BABYLON.GUI.Rectangle();
+   blackBackground.width = 1;
+   blackBackground.height = 1;
+   blackBackground.cornerRadius = 0;
+   blackBackground.thickness = 0;
+   blackBackground.background = "#bab9b9";
+   uiTexture.addControl(blackBackground);
+
+   let image = new BABYLON.GUI.Image("window_background", "assets/futureui1.png");
+   image.width = 0.95;
+   image.height = 0.95;
+   uiTexture.addControl(image);
+
+
+   let panel = new BABYLON.GUI.StackPanel();
+   panel.top = 60;
+   panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+   uiTexture.addControl(panel);
+
+   panel.addControl(getAlertTitle(COMS.intro.title));
+   panel.addControl(getAlertDescription(COMS.intro.description));
+   panel.addControl(getContinueButton(function() {
+      isLevelPlaying = true;
+   }));
+}

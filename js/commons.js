@@ -1,5 +1,7 @@
 const COMMONS = {
 
+   gameStatus: 0,
+
    player: "Sad Capitan",
    stats: {
       ShipHull: 100,
