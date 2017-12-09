@@ -35,5 +35,9 @@ Co robić wasza ekscelencjo kapitanie-dowódco-naczelny adsf asf asf asdf ?`,
             ]
          }
       ]
+   },
+   summary: {
+      title: "RAPORT",
+      continueButton: "KONTYNUUJ"
    }
 };

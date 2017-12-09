@@ -1,3 +1,13 @@
+let _advancedTexture;
+
+function getCleanAdvancedTextureForUI() {
+   if (_advancedTexture !== undefined)
+      _advancedTexture.dispose();
+
+   _advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+   return _advancedTexture
+}
+
 function getAlertTitle(title) {
    let comTitleFrame = new BABYLON.GUI.Rectangle();
    comTitleFrame.width = "1000px";
@@ -44,47 +54,99 @@ function getAlertDescription(description) {
    return comDescriptionFrame;
 }
 
-function getOptionButton(optionId, optionObj) {
-   let optionFrame = new BABYLON.GUI.Rectangle();
-   optionFrame.paddingTop = 10;
-   optionFrame.width = "1200px";
-   optionFrame.height = "70px";
-   optionFrame.cornerRadius = 6;
-   optionFrame.color = "#256d3f";
-   optionFrame.thickness = 4;
-   optionFrame.background = "#000000";
+function getOptionButton(optionId = 'optionButton', eventOptions) {
+   let buttonFrame = new BABYLON.GUI.Rectangle();
+   buttonFrame.paddingTop = 10;
+   buttonFrame.width = "1200px";
+   buttonFrame.height = "70px";
+   buttonFrame.cornerRadius = 6;
+   buttonFrame.color = "#256d3f";
+   buttonFrame.thickness = 4;
+   buttonFrame.background = "#000000";
 
-   let optionButton = new BABYLON.GUI.Button.CreateSimpleButton(optionId, optionObj.text);
-   optionButton.fontFamily = "xirod";
-   optionButton.color = "white";
-   optionButton.thickness = 0;
-   optionFrame.addControl(optionButton);
+   let button = new BABYLON.GUI.Button.CreateSimpleButton(optionId, eventOptions.text);
+   button.fontFamily = "xirod";
+   button.color = "white";
+   button.thickness = 0;
+   buttonFrame.addControl(button);
 
-   return optionFrame;
+   button.onPointerUpObservable.add(function () {
+      showTurnSummaryWindow(eventOptions);
+   });
+
+   return buttonFrame;
 }
+
+function getContinueButton(optionId = 'continueButton') {
+   let buttonFrame = new BABYLON.GUI.Rectangle();
+   buttonFrame.paddingTop = 10;
+   buttonFrame.width = "1200px";
+   buttonFrame.height = "70px";
+   buttonFrame.cornerRadius = 6;
+   buttonFrame.color = "#256d3f";
+   buttonFrame.thickness = 4;
+   buttonFrame.background = "#000000";
+
+   let button = new BABYLON.GUI.Button.CreateSimpleButton(optionId, COMS.summary.continueButton);
+   button.fontFamily = "xirod";
+   button.color = "white";
+   button.thickness = 0;
+   buttonFrame.addControl(button);
+
+   button.onPointerUpObservable.add(function () {
+      _advancedTexture.dispose();
+   });
+
+   return buttonFrame;
+}
+
 
 function showEventWindow() {
    // GUI
-   let advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
+   let uiTexture = getCleanAdvancedTextureForUI();
 
    // Background
    let image = new BABYLON.GUI.Image("window_background", "assets/futureui1.png");
    image.width = 0.95;
    image.height = 0.95;
-   advancedTexture.addControl(image);
+   uiTexture.addControl(image);
 
 
    let panel = new BABYLON.GUI.StackPanel();
    panel.top = 60;
    // panel.background = "#ffffff";
    panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
-   advancedTexture.addControl(panel);
+   uiTexture.addControl(panel);
 
-   let randomEvent = COMS.event.eventVariations[Math.floor(Math.random()*COMS.event.eventVariations.length)];
+   let randomEvent = COMS.event.eventVariations[Math.floor(Math.random() * COMS.event.eventVariations.length)];
 
    panel.addControl(getAlertTitle(COMS.event.title));
    panel.addControl(getAlertDescription(randomEvent.description));
    panel.addControl(getOptionButton('option0', randomEvent.options[0]));
    panel.addControl(getOptionButton('option1', randomEvent.options[1]));
    panel.addControl(getOptionButton('option2', randomEvent.options[2]));
+}
+
+function showTurnSummaryWindow(eventOptions) {
+   // GUI
+   let uiTexture = getCleanAdvancedTextureForUI();
+
+   // Background
+   let image = new BABYLON.GUI.Image("window_background", "assets/futureui1.png");
+   image.width = 0.95;
+   image.height = 0.95;
+   uiTexture.addControl(image);
+
+
+   let panel = new BABYLON.GUI.StackPanel();
+   panel.top = 60;
+   // panel.background = "#ffffff";
+   panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+   uiTexture.addControl(panel);
+
+   let randomEvent = COMS.event.eventVariations[Math.floor(Math.random() * COMS.event.eventVariations.length)];
+
+   panel.addControl(getAlertTitle(COMS.summary.title));
+   panel.addControl(getAlertDescription(randomEvent.description));
+   panel.addControl(getContinueButton());
 }
