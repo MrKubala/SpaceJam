@@ -57,18 +57,18 @@ function loadSounds() {
 function initializeActors(mapsize, scrollSpeed, asteroidDensity, foodDensity) {
    player = new Player(1, scene);
    map = new Map(scene, scrollSpeed, mapsize);
-   for (let i = mapsize - 20; i >= 0; i -= asteroidDensity) {
+   for (let i = mapsize - 20; i >= 200; i -= asteroidDensity) {
       let asteroidMeshInstance = MESH_REPO.rock1.createInstance('rock' + i);
-      asteroidField.push(new Asteroid(scene, asteroidMeshInstance, map.scaling.x, i));
+      asteroidField.push(new Asteroid(scene, asteroidMeshInstance, map.scaling.x, i + 5));
    }
-   for (let i = mapsize - 20; i >= 0; i -= foodDensity) {
+   for (let i = mapsize - 20; i >= 200; i -= foodDensity) {
       let stationMeshInstance = MESH_REPO.station.createInstance('station' + i);
       MESH_REPO.station._children.forEach(function (mesh, index) {
          let meshInstance = mesh.createInstance("meshInstance" + " " + i + " " + index);
          meshInstance.parent = stationMeshInstance;
       });
       stationMeshInstance.isVisible = false;
-      foodList.push(new Food(scene, stationMeshInstance, map.scaling.x, i));
+      foodList.push(new Food(scene, stationMeshInstance, map.scaling.x, i ));
    }
 }
 
