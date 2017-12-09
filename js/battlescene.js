@@ -176,11 +176,28 @@ Player.prototype.move = function (deltaTime) {
 
       player.velocity += this.acceleration * deltaTime;
 
-   }
-   if (INPUT.a) {
+      MESH_REPO.ship.rotation.z += 0.1 * deltaTime;
+      if (MESH_REPO.ship.rotation.z > 0.3)
+         MESH_REPO.ship.rotation.z = 0.3;
+
+   } else if (INPUT.a) {
 
       player.velocity -= this.acceleration * deltaTime;
 
+      MESH_REPO.ship.rotation.z -= 0.15 * deltaTime;
+      if (MESH_REPO.ship.rotation.z < -0.3)
+         MESH_REPO.ship.rotation.z = -0.3;
+
+   } else {
+      if (MESH_REPO.ship.rotation.z > 0) {
+         MESH_REPO.ship.rotation.z -= 0.15 * deltaTime;
+         if (MESH_REPO.ship.rotation.z < 0)
+            MESH_REPO.ship.rotation.z = 0;
+      } else {
+         MESH_REPO.ship.rotation.z += 0.15 * deltaTime;
+         if (MESH_REPO.ship.rotation.z > 0)
+            MESH_REPO.ship.rotation.z = 0;
+      }
    }
    if (INPUT.space) {
       //player.position.x -= this.speed * deltaTime;
@@ -214,4 +231,5 @@ Player.prototype.move = function (deltaTime) {
    }
    MESH_REPO.ship.position.x = player.position.x;
    MESH_REPO.ship.position.z = player.position.z;
-};
+}
+;
