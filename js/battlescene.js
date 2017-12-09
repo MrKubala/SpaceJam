@@ -1,5 +1,3 @@
-let isLevelFinished = false; 
-
 Player = function (size, scene) {
    // Call the super class BABYLON.Mesh
    BABYLON.Mesh.call(this, "Player", scene);
@@ -134,6 +132,7 @@ Asteroid.prototype.dies = function (){
       SOUNDS.spaceAmbient.stop();
       SOUNDS.shipExplosion.play();
       SOUNDS.gameOverSong.play();
+      isLevelPlaying = false;
       showShipDestroyedWindow();
    }
    console.log("Player Health count: " + COMMONS.stats.ShipHull  );
@@ -189,5 +188,6 @@ Player.prototype.move = function (deltaTime) {
    }
    if(player.position.z >= map.scaling.z/4){
       isLevelFinished = true;
+      isLevelPlaying = false;
    }
 };

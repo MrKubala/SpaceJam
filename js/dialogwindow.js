@@ -96,6 +96,7 @@ function getContinueButton(optionId = 'continueButton') {
 
    button.onPointerUpObservable.add(function () {
       SOUNDS.menuSelect.play();
+      isLevelPlaying = true;
       _advancedTexture.dispose();
    });
 

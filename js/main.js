@@ -6,6 +6,9 @@ let map;
 let asteroidField = [];
 let foodList = [];
 
+let isLevelFinished = false;
+let isLevelPlaying = true;
+
 window.addEventListener("resize", function () { // Watch for browser/canvas resize events
    engine.resize();
 });
@@ -47,6 +50,17 @@ function loadSounds() {
            }, {});
 }
 
+function initializeActors() {
+   player = new Player(1, scene);
+   map = new Map(scene);
+   for (let i = 2400; i >= 0; i -= 10) {
+      asteroidField.push(new Asteroid(scene, map.scaling.x, i));
+   }
+   for (let i = 2400; i >= 0; i -= 100) {
+      foodList.push(new Food(scene, map.scaling.x, i));
+   }
+}
+
 let createScene = function () {
    // Create the scene space
    scene = new BABYLON.Scene(engine);
@@ -56,15 +70,7 @@ let createScene = function () {
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
    let light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
-
-   player = new Player(1, scene);
-   map = new Map(scene);
-   for (let i = 2400; i >= 0; i -= 10) {
-      asteroidField.push(new Asteroid(scene, map.scaling.x, i));
-   }
-   for (let i = 2400; i >= 0; i -= 100) {
-      foodList.push(new Food(scene, map.scaling.x, i));
-   }
+   initializeActors();
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
 
@@ -115,27 +121,35 @@ function render() {
       let deltaTime = engine.getDeltaTime() / 1000;
       fadeInSound(deltaTime, SOUNDS.music, 0.05);
       fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
-      player.update(deltaTime);
-      map.update(deltaTime);
-      if (player.isAlive) {
-         if (!firstFrame) {
-            updateAsteroids(deltaTime);
-            updateFood(deltaTime);
-         } else {
-            firstFrame = false;
+
+      if (isLevelPlaying) {
+
+         player.update(deltaTime);
+         map.update(deltaTime);
+         if (player.isAlive) {
+            if (!firstFrame) {
+               updateAsteroids(deltaTime);
+               updateFood(deltaTime);
+            } else {
+               firstFrame = false;
+            }
          }
+         if (isLevelFinished) {
+            player.dispose();
+            map.dispose();
+            foodList.forEach(function (food, index) {
+               food.dispose();
+            });
+            asteroidField.forEach(function (asteroid, index) {
+               asteroid.dispose();
+            });
+            showEventWindow();
+            initializeActors();
+            isLevelFinished = false;
+         }
+
       }
-      if (isLevelFinished) {
-         player.dispose();
-         map.dispose();
-         foodList.forEach(function (food, index) {
-            food.dispose();
-         });
-         asteroidField.forEach(function (asteroid, index) {
-            asteroid.dispose();
-         });
-         showEventWindow();
-      }
+
       scene.render();
    });
 }
