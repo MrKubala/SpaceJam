@@ -5,7 +5,6 @@ Player = function (size, scene) {
    let vd = BABYLON.VertexData.CreateBox(size);
    // Apply the box shape to our mesh
    vd.applyToMesh(this, false);
-
    this.scene = scene;
 
    // Its position is in (0,0,0)
@@ -56,7 +55,7 @@ Map = function (scene) {
 };
 
 Asteroid = function (scene, mapSize, posZ) {
-   BABYLON.Mesh.call(this, "Asteroid", scene);
+   BABYLON.Mesh.call(this, "Asteroid " + posZ, scene);
    let vd = BABYLON.VertexData.CreateBox(1);
    vd.applyToMesh(this, false);
    let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
@@ -81,11 +80,22 @@ Map.prototype.update = function (deltaTime) {
 }
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);
+   if(this.intersectsMesh(player, true)){
+      this.dies();
+   }
+   
 }
 Asteroid.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
       this.position.z -= map.scrollSpeed * deltaTime 
    }
+}
+Asteroid.prototype.dies = function (){
+   this.isAlive = false;
+   //console.log(this);
+   //this.isVisible = false;
+   player.health = player.health - 1;
+   console.log(player.health );
 }
 Map.prototype.move = function (deltaTime) {
    if (map.position.z >= (-map.scaling.z)/2){
