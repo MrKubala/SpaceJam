@@ -4,7 +4,9 @@ const COMMONS = {
    stats: {
       ShipHull: 100,
       Population: 6000000,
-      Food: 100
+      Food: 100,
+      Sanity: 0,
+
    },
    mapvalues:{
       mapsize : 2420,
