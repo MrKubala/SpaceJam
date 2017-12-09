@@ -71,6 +71,19 @@ let createScene = function () {
    scene.debugLayer.show();
    loadSounds();
 
+   let assetsManager = new BABYLON.AssetsManager(scene);
+   let shipMeshTask = assetsManager.addMeshTask("ship mesh task", "", "assets/models/ship/", "VulcanDKyrClass.obj");
+
+   shipMeshTask.onSuccess = function (task) {
+      MESH_REPO.ship = BABYLON.MeshBuilder.CreateBox("shipAnchor", {height: 1, width: 2.9, depth: 3.5}, scene);
+      MESH_REPO.ship.isVisible = false;
+      task.loadedMeshes.forEach(function(mesh){
+         mesh.setParent(MESH_REPO.ship);
+      });
+      MESH_REPO.ship.rotation.y = Math.PI;
+   };
+   assetsManager.load();
+
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
    let light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);

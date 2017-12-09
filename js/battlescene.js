@@ -1,11 +1,6 @@
 Player = function (size, scene) {
    // Call the super class BABYLON.Mesh
    BABYLON.Mesh.call(this, "Player", scene);
-   // Creates a our ship
-   let vd = BABYLON.VertexData.CreateBox(size);
-   // Apply the box shape to our mesh
-   vd.applyToMesh(this, false);
-   this.scene = scene;
 
    this.isAlive = true;
 
@@ -53,7 +48,7 @@ Map = function (scene,scrollSpeed ,mapSize) {
 
 Asteroid = function (scene, mapSize, posZ) {
    BABYLON.Mesh.call(this, "Asteroid " + posZ, scene);
-   let vd = BABYLON.VertexData.CreateBox(1);
+   let vd = BABYLON.VertexData.CreateBox({size:0.3});
    vd.applyToMesh(this, false);
    let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
    this.isAlive = true;
@@ -90,7 +85,7 @@ Map.prototype.update = function (deltaTime) {
 }
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.position.z - player.position.z < 10 && this.intersectsMesh(player, false)){
+   if(this.position.z - player.position.z < 10 && this.intersectsMesh(MESH_REPO.ship, false)){
       this.dies();
    }
    
@@ -109,7 +104,7 @@ Food.prototype.clean = function(){
 }
 Food.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.position.z - player.position.z < 10 && this.intersectsMesh(player, false)){
+   if(this.position.z - player.position.z < 10 && this.intersectsMesh(MESH_REPO.ship, false)){
       this.dies();
    }
 };
@@ -195,4 +190,6 @@ Player.prototype.move = function (deltaTime) {
       isLevelFinished = true;
       isLevelPlaying = false;
    }
+   MESH_REPO.ship.position.x = player.position.x;
+   MESH_REPO.ship.position.z = player.position.z;
 };
