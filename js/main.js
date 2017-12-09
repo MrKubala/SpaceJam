@@ -56,9 +56,11 @@ function loadSounds() {
 
 function initializeActors(mapsize, scrollSpeed, asteroidDensity, foodDensity) {
    player = new Player(1, scene);
-   map = new Map(scene,scrollSpeed,mapsize);
+   map = new Map(scene, scrollSpeed, mapsize);
    for (let i = mapsize - 20; i >= 0; i -= asteroidDensity) {
-      asteroidField.push(new Asteroid(scene, map.scaling.x, i));
+      let asteroidMeshInstance = MESH_REPO.rock1.createInstance('rock' + i);
+      asteroidMeshInstance.position.x = 5;
+      asteroidField.push(new Asteroid(scene, asteroidMeshInstance, map.scaling.x, i));
    }
    for (let i = mapsize - 20; i >= 0; i -= foodDensity) {
       foodList.push(new Food(scene, map.scaling.x, i));
@@ -71,25 +73,32 @@ let createScene = function () {
    scene.debugLayer.show();
    loadSounds();
 
-   let assetsManager = new BABYLON.AssetsManager(scene);
-   let shipMeshTask = assetsManager.addMeshTask("ship mesh task", "", "assets/models/ship/", "VulcanDKyrClass.obj");
+   scene.assetsManager = new BABYLON.AssetsManager(scene);
+   let shipMeshTask = scene.assetsManager.addMeshTask("ship mesh task", "", "assets/models/ship/", "VulcanDKyrClass.obj");
+   let rock1MeshTask = scene.assetsManager.addMeshTask("rock1 mesh task", "", "assets/models/rock1/", "Rock1.obj");
 
    shipMeshTask.onSuccess = function (task) {
       MESH_REPO.ship = BABYLON.MeshBuilder.CreateBox("shipAnchor", {height: 1, width: 2.9, depth: 3.5}, scene);
       MESH_REPO.ship.isVisible = false;
-      task.loadedMeshes.forEach(function(mesh){
+      task.loadedMeshes.forEach(function (mesh) {
          mesh.setParent(MESH_REPO.ship);
       });
       MESH_REPO.ship.rotation.y = Math.PI;
    };
-   assetsManager.load();
+   rock1MeshTask.onSuccess = function (task) {
+      task.loadedMeshes[0].dispose();
+      MESH_REPO.rock1 = task.loadedMeshes[1];
+      MESH_REPO.rock1.isVisible = false;
+      MESH_REPO.rock1.scaling.x = 0.1;
+      MESH_REPO.rock1.scaling.y = 0.5;
+      MESH_REPO.rock1.scaling.z = 0.2;
+   };
 
    // Add lights to the scene
    let light1 = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(1, 1, 0), scene);
    let light2 = new BABYLON.PointLight("light2", new BABYLON.Vector3(0, 1, -1), scene);
-   initializeActors(COMMONS.mapvalues.mapsize,COMMONS.mapvalues.scrollspeed,COMMONS.mapvalues.asteroiddensity,COMMONS.mapvalues.fooddensity);
    // Add a camera to the scene and attach it to the canvas
-   let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
+   let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, 7, -20), scene);
 
    scene.actionManager = new BABYLON.ActionManager(scene);
    scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
@@ -107,15 +116,18 @@ let createScene = function () {
 
 function main() {
    createScene(); //Call the createScene function
-   scene.executeWhenReady(function () {
-      setTimeout(render, 1000);
-   });
+   scene.assetsManager.load();
+   scene.assetsManager.onFinish = function (tasks) {
+      initializeActors(COMMONS.mapvalues.mapsize, COMMONS.mapvalues.scrollspeed, COMMONS.mapvalues.asteroiddensity, COMMONS.mapvalues.fooddensity);
+      render();
+   }
 }
 
 function updateAsteroids(deltaTime) {
    asteroidField.forEach(function (asteroid, index) {
       asteroid.update(deltaTime);
       if (asteroid.isAlive === false) {
+         asteroid.meshInstance.dispose();
          asteroid.dispose();
          asteroidField.splice(index, 1);
       }
@@ -161,7 +173,7 @@ function render() {
                asteroid.dispose();
             });
             showEventWindow();
-            initializeActors();
+            initializeActors(COMMONS.mapvalues.mapsize, COMMONS.mapvalues.scrollspeed, COMMONS.mapvalues.asteroiddensity, COMMONS.mapvalues.fooddensity);
             isLevelFinished = false;
          }
 

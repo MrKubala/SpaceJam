@@ -46,15 +46,20 @@ Map = function (scene,scrollSpeed ,mapSize) {
 
 };
 
-Asteroid = function (scene, mapSize, posZ) {
+Asteroid = function (scene, meshInstance, mapSize, posZ) {
    BABYLON.Mesh.call(this, "Asteroid " + posZ, scene);
-   let vd = BABYLON.VertexData.CreateBox({size:0.3});
-   vd.applyToMesh(this, false);
    let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
    this.isAlive = true;
-   this.isVisible = true;
+   this.meshInstance = meshInstance;
    this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
-}
+   this.meshInstance.position = this.position;
+
+   this.angularSpeed={
+      x: Math.random(),
+      y: Math.random(),
+      z: Math.random()
+   }
+};
 
 Food = function (scene, mapSize, posZ) {
    BABYLON.Mesh.call(this, "Food " + posZ, scene);
@@ -65,7 +70,7 @@ Food = function (scene, mapSize, posZ) {
    this.isAlive = true;
    this.isVisible = true;
    this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
-}
+};
 
 Player.prototype = Object.create(BABYLON.Mesh.prototype);
 Player.prototype.constructor = Player;
@@ -82,20 +87,19 @@ Player.prototype.update = function (deltaTime) {
 Map.prototype.update = function (deltaTime) {
    this.move(deltaTime);
    this.skybox.rotation.x += 0.004 * deltaTime;
-}
+};
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.position.z - player.position.z < 10 && this.intersectsMesh(MESH_REPO.ship, false)){
+   if(this.position.z - player.position.z < 5 && this.meshInstance.intersectsMesh(MESH_REPO.ship, true)){
       this.dies();
    }
-   
-}
+};
 Asteroid.prototype.clean = function(){
    if(this.position.z < player.position.z - 10){
       this.isAlive = false;
       this.dispose();
    }
-}
+};
 Food.prototype.clean = function(){
    if(this.position.z < player.position.z - 10){
       this.isAlive = false;
@@ -112,6 +116,11 @@ Asteroid.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
       this.position.z -= map.scrollSpeed * deltaTime 
    }
+   this.meshInstance.rotation.x += this.angularSpeed.x * deltaTime;
+   this.meshInstance.rotation.y += this.angularSpeed.y * deltaTime;
+   this.meshInstance.rotation.z += this.angularSpeed.z * deltaTime;
+
+   this.meshInstance.position.z = this.position.z;
 }
 Food.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
@@ -147,7 +156,6 @@ Map.prototype.move = function (deltaTime) {
    if (map.position.z >= (-map.scaling.z)/2){
       map.position.z -= this.scrollSpeed * deltaTime 
    }
-   
 }
 
 Player.prototype.move = function (deltaTime) {
