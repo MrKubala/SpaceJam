@@ -232,5 +232,9 @@ const COMS = {
          
    Dzielni pionierzy wyruszają w podróż, natomiast nienawistne meteory pozostają w pogoni.`
          
+      },
+      destination: {
+         title: 'Dotarliście do celu',
+         description: ""
       }
    };

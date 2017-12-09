@@ -167,8 +167,10 @@ function render() {
       let deltaTime = engine.getDeltaTime() / 1000;
 
       if(COMMONS.gameStatus === 0){
-         showIntroWindow();
+         showAtDestinationWindow();
          COMMONS.gameStatus = 1;
+      } else if (COMMONS.gameStatus === 5){
+         showAtDestinationWindow();
       } else if (isLevelPlaying) {
 
          fadeInSound(deltaTime, SOUNDS.music, 0.05);

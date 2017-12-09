@@ -18,7 +18,7 @@ function getAlertTitle(title, alignLeft = false) {
    comTitleFrame.background = "#401d06";
 
    let comTitle = new BABYLON.GUI.TextBlock();
-   if(alignLeft){
+   if (alignLeft) {
       comTitle.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
       comTitle.left = 20;
    }
@@ -31,11 +31,11 @@ function getAlertTitle(title, alignLeft = false) {
    return comTitleFrame;
 }
 
-function getAlertDescription(description) {
+function getAlertDescription(description, height = "500px") {
    let comDescriptionFrame = new BABYLON.GUI.Rectangle();
    comDescriptionFrame.paddingTop = 30;
    comDescriptionFrame.width = "1200px";
-   comDescriptionFrame.height = "500px";
+   comDescriptionFrame.height = height;
    comDescriptionFrame.cornerRadius = 6;
    comDescriptionFrame.color = "#24676d";
    comDescriptionFrame.thickness = 4;
@@ -220,7 +220,29 @@ function showIntroWindow() {
    }));
 }
 
-function showStats(){
+function showAtDestinationWindow() {
+   // GUI
+   let uiTexture = getCleanAdvancedTextureForUI();
+
+   let image = new BABYLON.GUI.Image("window_background", "assets/futureui1.png");
+   image.width = 0.95;
+   image.height = 0.95;
+   uiTexture.addControl(image);
+
+   let panel = new BABYLON.GUI.StackPanel();
+   panel.top = 60;
+   panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+   uiTexture.addControl(panel);
+
+   panel.addControl(getAlertTitle(COMS.destination.title));
+   panel.addControl(getAlertDescription(COMS.destination.description));
+   let peopleYouKilled = 'Zabiłeś tych ludzi: \n\n' + getStringWithListOfRandomNames(40);
+   panel.addControl(getAlertDescription(peopleYouKilled, "400px"));
+
+   setTimeout(showAtDestinationWindow, 3000);
+}
+
+function showStats() {
    // GUI
    let uiTexture = getCleanAdvancedTextureForUI();
 
@@ -231,7 +253,7 @@ function showStats(){
    panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
    uiTexture.addControl(panel);
 
-   panel.addControl(getAlertTitle("Stan Poszycia: "+ COMMONS.stats.ShipHull, true));
-   panel.addControl(getAlertTitle("Populacja: "+ COMMONS.stats.Population, true));
-   panel.addControl(getAlertTitle("Tony żywności: "+ COMMONS.stats.Food, true));
+   panel.addControl(getAlertTitle("Stan Poszycia: " + COMMONS.stats.ShipHull, true));
+   panel.addControl(getAlertTitle("Populacja: " + COMMONS.stats.Population, true));
+   panel.addControl(getAlertTitle("Tony żywności: " + COMMONS.stats.Food, true));
 }
