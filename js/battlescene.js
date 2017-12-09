@@ -125,6 +125,11 @@ Food.prototype.move = function (deltaTime) {
 }
 Asteroid.prototype.dies = function (){
    COMMONS.stats.ShipHull -= 10;
+
+   if(Math.random() * 5 < 1){
+      SOUNDS.wilhelScream.play();
+   }
+
    if(COMMONS.stats.ShipHull <= 0) {
       player.isAlive = false;
       console.log("Ship is destroyed,game should end here !");
