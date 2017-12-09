@@ -71,6 +71,7 @@ function getOptionButton(optionId = 'optionButton', eventOptions) {
    buttonFrame.addControl(button);
 
    button.onPointerUpObservable.add(function () {
+      SOUNDS.menuSelect.play();
       showTurnSummaryWindow(eventOptions);
    });
 
@@ -94,6 +95,7 @@ function getContinueButton(optionId = 'continueButton') {
    buttonFrame.addControl(button);
 
    button.onPointerUpObservable.add(function () {
+      SOUNDS.menuSelect.play();
       _advancedTexture.dispose();
    });
 
