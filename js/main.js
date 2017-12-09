@@ -51,7 +51,7 @@ let createScene = function () {
 
    player = new Player(1, scene);
    map = new Map(scene);
-   for (let i = 2400;i = i - 25;i <= 0)  {
+   for (let i = 2400;i = i - 10;i <= 0)  {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
    for (let i = 2400;i = i - 100;i <= 0)  {
@@ -86,11 +86,16 @@ function main() {
       for (a of asteroidField) {
          a.clean()
          a.update(deltaTime);
-         
+         if(!a.isAlive){
+                asteroidField.pop(a.index);
+        }
       }
       for (f of foodList) {
         f.clean();
         f.update(deltaTime);
+        if(!f.isAlive){
+                foodList.pop(f.index);
+        }
      }
 
       scene.render();
