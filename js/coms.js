@@ -185,7 +185,7 @@ Powinieneś powoli gnić przez kolejne 10 lat. I tak to za mało abyś odpukutow
       description: `
 Ziemia została zniszczona przez chmurę meteorytów, teraz jedyna pozostałą grupą ludzi jest ta zebrana na Arce, 600 000 osób zawieszonych w przestrzeni, cel podróży życia, Słońce 2.0 niedawno odkryta gwiazda, z potencjalnym nowym domem. 
       
-Czy wystarczy im jedzenia ? Jedyna szansa w zbieraniu pozostałosci z wczesniejsz prób kolonizacji kosmosu.
+Czy wystarczy im jedzenia ? Jedyna szansa w zbieraniu pozostałosci z wczesniejszych prób kolonizacji kosmosu.
       
 Dzielni pionierzy wyruszają w podróż, natomiast nienawistne meteory pozostają w pogoni.`
       
