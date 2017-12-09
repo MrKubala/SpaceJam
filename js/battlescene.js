@@ -131,6 +131,7 @@ Food.prototype.move = function (deltaTime) {
    }
 }
 Asteroid.prototype.dies = function () {
+   SOUNDS.impact.play();
    COMMONS.stats.ShipHull -= 5;
    showStats();
 
@@ -157,6 +158,7 @@ Asteroid.prototype.dies = function () {
    this.isAlive = false;
 }
 Food.prototype.dies = function () {
+   SOUNDS.pickup.play();
    COMMONS.stats.Food += 1;
    showStats();
    console.log("Food count: " + COMMONS.stats.Food);

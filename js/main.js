@@ -46,11 +46,19 @@ function loadSounds() {
            }, {});
    SOUNDS.wilhelScream = new BABYLON.Sound("spaceAmbient", "assets/sounds/wilhelm-Scream.mp3", scene,
            function () {
-              SOUNDS.wilhelScream.setVolume(0.8);
+              SOUNDS.wilhelScream.setVolume(0.6);
            }, {});
    SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene,
            function () {
               SOUNDS.menuSelect.setVolume(0.2);
+           }, {});
+   SOUNDS.pickup = new BABYLON.Sound("pickup", "assets/sounds/pickup.wav", scene,
+           function () {
+              SOUNDS.pickup.setVolume(0.6);
+           }, {});
+   SOUNDS.impact = new BABYLON.Sound("spaceAmbient", "assets/sounds/impact.wav", scene,
+           function () {
+              SOUNDS.impact.setVolume(0.6);
            }, {});
 }
 
