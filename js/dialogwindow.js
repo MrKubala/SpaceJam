@@ -146,14 +146,24 @@ function showTurnSummaryWindow(eventOption) {
    // panel.background = "#ffffff";
    panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
    uiTexture.addControl(panel);
+   eventOption.effect();
 
    panel.addControl(getAlertTitle(COMS.event.title));
-   panel.addControl(getAlertDescription(eventOption.effectdescription));
+   let foodComm = "Masz " + COMMONS.stats.Food + " ton jedzenia.\n";
+   foodComm += "Dla populacji " + COMMONS.stats.Population + " minimalna ilość żywności to " + getFoodDemand() + "t.\n";
+   COMMONS.stats.Food -= getFoodDemand();
+   if (COMMONS.stats.Food > 0) {
+      foodComm += "Tym razem udało ci się wykarmić wszystkich.";
+   } else {
+      let number = Math.abs(COMMONS.stats.Food);
+      foodComm += "Brakło " + number + "t jedzenia. Z głodu umarło " + (number * 20000) + " ludzi.";
+   }
+
+   panel.addControl(getAlertDescription(eventOption.effectdescription + "\n\n" + foodComm));
    panel.addControl(getContinueButton(function () {
       SOUNDS.menuSelect.play();
       isLevelPlaying = true;
       _advancedTexture.dispose();
-      eventOption.effect();
       showStats();
    }));
 }
@@ -220,6 +230,16 @@ function showIntroWindow() {
    }));
 }
 
+function getSanityBasedEnding() {
+   if (COMMONS.stats.Sanity >= 0 && COMMONS.stats.Population > 500000) {
+      return COMS.destination_good;
+   } else if (COMMONS.stats.Sanity < -50) {
+      return COMS.destination_mad;
+   } else {
+      return COMS.destination_bad;
+   }
+}
+
 function showAtDestinationWindow() {
    // GUI
    let uiTexture = getCleanAdvancedTextureForUI();
@@ -234,8 +254,10 @@ function showAtDestinationWindow() {
    panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
    uiTexture.addControl(panel);
 
-   panel.addControl(getAlertTitle(COMS.destination.title));
-   panel.addControl(getAlertDescription(COMS.destination.description));
+   let ending = getSanityBasedEnding();
+
+   panel.addControl(getAlertTitle(ending.title));
+   panel.addControl(getAlertDescription(ending.description));
    let peopleYouKilled = 'Zabiłeś tych ludzi: \n\n' + getStringWithListOfRandomNames(40);
    panel.addControl(getAlertDescription(peopleYouKilled, "400px"));
 

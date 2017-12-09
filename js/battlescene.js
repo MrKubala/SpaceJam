@@ -131,7 +131,7 @@ Food.prototype.move = function (deltaTime) {
    }
 }
 Asteroid.prototype.dies = function () {
-   COMMONS.stats.ShipHull -= 10;
+   COMMONS.stats.ShipHull -= 5;
    showStats();
 
    if (Math.random() * 5 < 1) {

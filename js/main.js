@@ -75,7 +75,7 @@ function initializeActors(mapsize, scrollSpeed, asteroidDensity, foodDensity) {
 let createScene = function () {
    // Create the scene space
    scene = new BABYLON.Scene(engine);
-   scene.debugLayer.show();
+   // scene.debugLayer.show();
    loadSounds();
 
    scene.assetsManager = new BABYLON.AssetsManager(scene);
@@ -161,15 +161,19 @@ function updateFood(deltaTime) {
    });
 }
 
+function getFoodDemand() {
+   return Math.ceil(COMMONS.stats.Population / 20000);
+}
+
 function render() {
    let firstFrame = true;
    engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
       let deltaTime = engine.getDeltaTime() / 1000;
 
       if(COMMONS.gameStatus === 0){
-         showAtDestinationWindow();
+         showIntroWindow();
          COMMONS.gameStatus = 1;
-      } else if (COMMONS.gameStatus === 5){
+      } else if (COMMONS.gameStatus === 6){
          showAtDestinationWindow();
       } else if (isLevelPlaying) {
 
@@ -187,7 +191,8 @@ function render() {
             }
          }
          if (isLevelFinished) {
-            COMMONS.stats.Food -= Math.ceil(COMMONS.stats.Population/20000);
+            COMMONS.gameStatus++;
+            console.log(COMMONS.gameStatus);
             player.dispose();
             map.skybox.dispose();
             map.dispose();
@@ -197,10 +202,10 @@ function render() {
             asteroidField.forEach(function (asteroid, index) {
                asteroid.dispose();
             });
-            
+
             showEventWindow();
             COMMONS.mapvalues.scrollspeed += 5;
-            COMMONS.mapvalues.asteroiddensity -= 5;
+            COMMONS.mapvalues.asteroiddensity -= 3;
             COMMONS.mapvalues.fooddensity += 10;
             initializeActors(COMMONS.mapvalues.mapsize, COMMONS.mapvalues.scrollspeed, COMMONS.mapvalues.asteroiddensity, COMMONS.mapvalues.fooddensity);
             isLevelFinished = false;
