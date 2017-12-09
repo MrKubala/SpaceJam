@@ -31,16 +31,16 @@ Map = function (scene) {
    this.scrollSpeed = 40;
    BABYLON.Mesh.call(this, "Map", scene);
    let vd = BABYLON.VertexData.CreateBox(1);
-   vd.applyToMesh(this, false);
+   //vd.applyToMesh(this, false);
    this.scaling.y = 0.1;
    this.scaling.x = 20;
-   this.scaling.z = 820;
+   this.scaling.z = 2420;
    this.position.x = 0;
    this.position.y = 0;
    this.position.z = this.scaling.z/2 - 20;
 
    // The box creation
-   var skybox = BABYLON.Mesh.CreateBox("skyBox", 100.0, scene);
+   var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
 
    // The sky creation
    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
@@ -52,12 +52,25 @@ Map = function (scene) {
 
    // box + sky = skybox !
    skybox.material = skyboxMaterial;
+
 };
+
+Asteroid = function (scene, mapSize, posZ) {
+   BABYLON.Mesh.call(this, "Asteroid", scene);
+   let vd = BABYLON.VertexData.CreateBox(1);
+   vd.applyToMesh(this, false);
+   let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
+   this.isAlive = true;
+   this.isVisible = true;
+   this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
+}
 
 Player.prototype = Object.create(BABYLON.Mesh.prototype);
 Player.prototype.constructor = Player;
 Map.prototype = Object.create(BABYLON.Mesh.prototype);
 Map.prototype.constructor = Map;
+Asteroid.prototype = Object.create(BABYLON.Mesh.prototype);
+Asteroid.prototype.constructor = Asteroid;
 
 Player.prototype.update = function (deltaTime) {
    this.move(deltaTime);
@@ -65,7 +78,14 @@ Player.prototype.update = function (deltaTime) {
 Map.prototype.update = function (deltaTime) {
    this.move(deltaTime);
 }
-
+Asteroid.prototype.update = function (deltaTime) {
+   this.move(deltaTime);
+}
+Asteroid.prototype.move = function (deltaTime) {
+   if (this.position.z >= (-map.scaling.z)/2){
+      this.position.z -= map.scrollSpeed * deltaTime 
+   }
+}
 Map.prototype.move = function (deltaTime) {
    if (map.position.z >= (-map.scaling.z)/2){
       map.position.z -= this.scrollSpeed * deltaTime 
@@ -106,12 +126,4 @@ Player.prototype.move = function (deltaTime) {
       player.position.x = map.scaling.x/2;
       player.velocity = 0;
    }
-   console.log(player.velocity);
-   
-   /*if (INPUT.w) {
-      player.position.z += this.speed * deltaTime;
-   }
-   if (INPUT.s) {
-      player.position.z -= this.speed * deltaTime;
-   }*/
 };
