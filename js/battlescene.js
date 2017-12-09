@@ -24,7 +24,7 @@ Player = function (size, scene) {
    this.health = 100;
    this.food = 0;
 
-   
+   this.velocityz = 0;
 };
 
 Map = function (scene) {
@@ -170,7 +170,10 @@ Player.prototype.move = function (deltaTime) {
       player.position.x = -(map.scaling.x/2);
       player.velocity = 0;
    }
-   
+   if(player.position.z >=(map.position.z + map.scaling.z/2)){
+      player.velocityz += 1 * deltaTime;
+      player.position.z += player.velocityz;
+   }
    if (player.position.x <= map.scaling.x/2){
       player.position.x += player.velocity;
    }else{
