@@ -39,7 +39,11 @@ function loadSounds() {
            }, {});
    SOUNDS.shipExplosion = new BABYLON.Sound("spaceAmbient", "assets/sounds/ship-destruction.wav", scene,
            function () {
-              SOUNDS.menuSelect.setVolume(0.3);
+              SOUNDS.shipExplosion.setVolume(0.8);
+           }, {});
+   SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene,
+           function () {
+              SOUNDS.menuSelect.setVolume(0.2);
            }, {});
 }
 
