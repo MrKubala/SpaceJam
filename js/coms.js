@@ -175,7 +175,7 @@ Jej wyznawcy wieżą podobno w ogromną kałamarnicę pływającom przez przestr
       
 Budowana przez dziesięciolecia ostateczna nadzieja ludzkości mająca zapewnić przerwanie jest zniszczona przez CIEBIE
 
-6 640 100 osób w jednej chwili wyparowało, a wraz z nimi ślad po ludzkiej rasie. Wszystko przez CIEBIE.
+600 000 osób w jednej chwili wyparowało, a wraz z nimi ślad po ludzkiej rasie. Wszystko przez CIEBIE.
 
 Jak się z tym czujesz w swojej kapitańskiej kapsule? Dobrze, że choć nie masz jak popełnić bezbolesnego samobójstwa.
 Powinieneś powoli gnić przez kolejne 10 lat. I tak to za mało abyś odpukutował swoje czyny...`

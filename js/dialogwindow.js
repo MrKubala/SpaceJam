@@ -8,7 +8,7 @@ function getCleanAdvancedTextureForUI() {
    return _advancedTexture
 }
 
-function getAlertTitle(title) {
+function getAlertTitle(title, alignLeft = false) {
    let comTitleFrame = new BABYLON.GUI.Rectangle();
    comTitleFrame.width = "1000px";
    comTitleFrame.height = "60px";
@@ -18,6 +18,10 @@ function getAlertTitle(title) {
    comTitleFrame.background = "#401d06";
 
    let comTitle = new BABYLON.GUI.TextBlock();
+   if(alignLeft){
+      comTitle.textHorizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+      comTitle.left = 20;
+   }
    comTitle.fontFamily = "xirod";
    comTitle.text = title;
    comTitle.color = "white";
@@ -149,6 +153,8 @@ function showTurnSummaryWindow(eventOption) {
       SOUNDS.menuSelect.play();
       isLevelPlaying = true;
       _advancedTexture.dispose();
+      eventOption.effect();
+      showStats();
    }));
 }
 
@@ -210,9 +216,22 @@ function showIntroWindow() {
       SOUNDS.menuSelect.play();
       isLevelPlaying = true;
       _advancedTexture.dispose();
+      showStats();
    }));
 }
 
 function showStats(){
+   // GUI
+   let uiTexture = getCleanAdvancedTextureForUI();
 
+   let panel = new BABYLON.GUI.StackPanel();
+   panel.top = 60;
+   panel.left = 60;
+   panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+   panel.horizontalAlignment = BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
+   uiTexture.addControl(panel);
+
+   panel.addControl(getAlertTitle("Stan Poszycia: "+ COMMONS.stats.ShipHull, true));
+   panel.addControl(getAlertTitle("Populacja: "+ COMMONS.stats.Population, true));
+   panel.addControl(getAlertTitle("Tony żywności: "+ COMMONS.stats.Food, true));
 }

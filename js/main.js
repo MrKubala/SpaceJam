@@ -42,7 +42,7 @@ function loadSounds() {
            }, {});
    SOUNDS.shipExplosion = new BABYLON.Sound("spaceAmbient", "assets/sounds/ship-destruction.wav", scene,
            function () {
-              SOUNDS.shipExplosion.setVolume(0.5);
+              SOUNDS.shipExplosion.setVolume(0.4);
            }, {});
    SOUNDS.wilhelScream = new BABYLON.Sound("spaceAmbient", "assets/sounds/wilhelm-Scream.mp3", scene,
            function () {
@@ -185,6 +185,7 @@ function render() {
             }
          }
          if (isLevelFinished) {
+            COMMONS.stats.Food -= Math.ceil(COMMONS.stats.Population/20000);
             player.dispose();
             map.skybox.dispose();
             map.dispose();

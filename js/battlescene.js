@@ -132,9 +132,15 @@ Food.prototype.move = function (deltaTime) {
 }
 Asteroid.prototype.dies = function () {
    COMMONS.stats.ShipHull -= 10;
+   showStats();
 
    if (Math.random() * 5 < 1) {
       SOUNDS.wilhelScream.play();
+      COMMONS.stats.Population -= Math.floor(Math.random() * 50000);
+      showStats();
+   } else {
+      COMMONS.stats.Population -= Math.floor(Math.random() * 10000);
+      showStats();
    }
 
    if (COMMONS.stats.ShipHull <= 0) {
@@ -152,6 +158,7 @@ Asteroid.prototype.dies = function () {
 }
 Food.prototype.dies = function () {
    COMMONS.stats.Food += 1;
+   showStats();
    console.log("Food count: " + COMMONS.stats.Food);
    this.meshInstance.dispose();
    this.isAlive = false;

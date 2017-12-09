@@ -5,7 +5,7 @@ const COMMONS = {
    player: "Sad Capitan",
    stats: {
       ShipHull: 100,
-      Population: 6000000,
+      Population: 600000,
       Food: 100,
       Sanity: 0,
 
