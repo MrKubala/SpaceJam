@@ -55,7 +55,6 @@ let createScene = function () {
    }
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
-   camera.maxZ = 2000;
 
    scene.actionManager = new BABYLON.ActionManager(scene);
    scene.actionManager.registerAction(new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnKeyDownTrigger, function (evt) {
