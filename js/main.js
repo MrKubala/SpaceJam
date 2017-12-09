@@ -13,7 +13,6 @@ window.addEventListener("resize", function () { // Watch for browser/canvas resi
 let fadeInMusic = function (deltaTime) {
    let maxVolume = 0.1;
    if (music.getVolume() < maxVolume) {
-      console.log(deltaTime);
       music.setVolume(music.getVolume() + (0.01 * deltaTime));
    }
    else {
