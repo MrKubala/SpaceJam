@@ -90,6 +90,15 @@ function updateAsteroids(deltaTime) {
       }
    });
 }
+function updateFood(deltaTime) {
+        foodList.forEach(function (food, index) {
+           food.update(deltaTime);
+           if (food.isAlive === false) {
+                food.dispose();
+              foodList.splice(index, 1);
+           }
+        });
+     }
 
 function render() {
    let firstFrame = true;
@@ -101,17 +110,10 @@ function render() {
       map.update(deltaTime);
       if(!firstFrame){
          updateAsteroids(deltaTime);
+         updateFood(deltaTime);
       } else {
          firstFrame = false;
       }
-      for (f of foodList) {
-        f.clean();
-        f.update(deltaTime);
-        if(!f.isAlive){
-                foodList.pop(f.index);
-        }
-     }
-
       scene.render();
    });
 }

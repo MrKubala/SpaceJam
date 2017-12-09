@@ -113,6 +113,9 @@ Food.prototype.clean = function(){
 }
 Food.prototype.update = function (deltaTime) {
    this.move(deltaTime);
+   if(this.position.z - player.position.z < 10 && this.intersectsMesh(player, false)){
+      this.dies();
+   }
 };
 Asteroid.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
@@ -125,8 +128,13 @@ Food.prototype.move = function (deltaTime) {
    }
 }
 Asteroid.prototype.dies = function (){
-   player.health = player.health - 1;
-   console.log(player.health );
+   player.health -= 10;
+   console.log("Player Health count: " + player.health  );
+   this.isAlive = false;
+}
+Food.prototype.dies = function (){
+   player.food += 1;
+   console.log("Food count: " + player.food );
    this.isAlive = false;
 }
 Map.prototype.move = function (deltaTime) {
