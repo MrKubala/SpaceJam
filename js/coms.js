@@ -176,7 +176,7 @@ const COMS = {
                      text: `Świetny pomysł !`,
                      effect: function () {
                            COMMONS.stats.Sanity +=5;
-                           OMMONS.stats.Food -= 20
+                           COMMONS.stats.Food -= 20
                      },
                     effectdescription : `Impreza była świetna, morale znacznie się podniosły ale, zmarnowaliśmy tez duzo surowców
                     
