@@ -9,13 +9,12 @@ window.addEventListener("resize", function () { // Watch for browser/canvas resi
    engine.resize();
 });
 
-let fadeInMusic = function (deltaTime) {
-   let maxVolume = 0.1;
-   if (SOUNDS.music.getVolume() < maxVolume) {
-      SOUNDS.music.setVolume(SOUNDS.music.getVolume() + (0.01 * deltaTime));
+let fadeInSound = function (deltaTime, sound, maxVolume = 0.1, volumeDelta = 0.01) {
+   if (sound.getVolume() < maxVolume) {
+      sound.setVolume(sound.getVolume() + (volumeDelta * deltaTime));
    }
    else {
-      SOUNDS.music.setVolume(maxVolume);
+      sound.setVolume(maxVolume);
    }
 };
 
@@ -27,7 +26,12 @@ function loadSounds() {
               SOUNDS.music.play();
            }, {loop: true});
 
-   SOUNDS.spaceAmbient = new BABYLON.Sound("spaceAmbient", "assets/sounds/ambience-space-00.wav", scene, null, {});
+   SOUNDS.spaceAmbient = new BABYLON.Sound("spaceAmbient", "assets/sounds/ambience-space-00.wav", scene,
+           function () {
+              // Sound has been downloaded & decoded
+              SOUNDS.spaceAmbient.setVolume(0);
+              SOUNDS.spaceAmbient.play();
+           }, {loop: true});
    SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene, null, {});
 }
 
@@ -69,7 +73,8 @@ function main() {
 
    engine.runRenderLoop(function () { // Register a render loop to repeatedly render the scene
       let deltaTime = engine.getDeltaTime() / 1000;
-      fadeInMusic(deltaTime);
+      fadeInSound(deltaTime, SOUNDS.music, 0.05);
+      fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
       player.update(deltaTime);
       map.update(deltaTime);
       for (a of asteroidField) {
