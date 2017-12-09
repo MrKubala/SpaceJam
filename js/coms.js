@@ -139,7 +139,7 @@ Jej wyznawcy wieżą podobno w ogromną kałamarnicę pływającom przez przestr
                {
                   text: "Świetny pomysł !",
                   effect: function () {
-                        COMMONS.stats.Sanity +=1;
+                        COMMONS.stats.Sanity +=5;
                         OMMONS.stats.Food -= 20
                   },
                  effectdescription : "Impreza była świetna, morale znacznie się podniosły ale, zmarnowaliśmy tez duzo surowców"

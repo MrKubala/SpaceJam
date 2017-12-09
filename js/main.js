@@ -196,6 +196,9 @@ function render() {
             });
             
             showEventWindow();
+            COMMONS.mapvalues.scrollspeed += 5;
+            COMMONS.mapvalues.asteroiddensity -= 5;
+            COMMONS.mapvalues.fooddensity += 10;
             initializeActors(COMMONS.mapvalues.mapsize, COMMONS.mapvalues.scrollspeed, COMMONS.mapvalues.asteroiddensity, COMMONS.mapvalues.fooddensity);
             isLevelFinished = false;
          }
