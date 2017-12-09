@@ -153,6 +153,7 @@ function render() {
          }
          if (isLevelFinished) {
             player.dispose();
+            map.skybox.dispose();
             map.dispose();
             foodList.forEach(function (food, index) {
                food.dispose();
@@ -160,6 +161,7 @@ function render() {
             asteroidField.forEach(function (asteroid, index) {
                asteroid.dispose();
             });
+            
             showEventWindow();
             initializeActors();
             isLevelFinished = false;
