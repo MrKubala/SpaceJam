@@ -59,11 +59,16 @@ function initializeActors(mapsize, scrollSpeed, asteroidDensity, foodDensity) {
    map = new Map(scene, scrollSpeed, mapsize);
    for (let i = mapsize - 20; i >= 0; i -= asteroidDensity) {
       let asteroidMeshInstance = MESH_REPO.rock1.createInstance('rock' + i);
-      asteroidMeshInstance.position.x = 5;
       asteroidField.push(new Asteroid(scene, asteroidMeshInstance, map.scaling.x, i));
    }
    for (let i = mapsize - 20; i >= 0; i -= foodDensity) {
-      foodList.push(new Food(scene, map.scaling.x, i));
+      let stationMeshInstance = MESH_REPO.station.createInstance('station' + i);
+      MESH_REPO.station._children.forEach(function (mesh, index) {
+         let meshInstance = mesh.createInstance("meshInstance" + " " + i + " " + index);
+         meshInstance.parent = stationMeshInstance;
+      });
+      stationMeshInstance.isVisible = false;
+      foodList.push(new Food(scene, stationMeshInstance, map.scaling.x, i));
    }
 }
 
@@ -76,6 +81,7 @@ let createScene = function () {
    scene.assetsManager = new BABYLON.AssetsManager(scene);
    let shipMeshTask = scene.assetsManager.addMeshTask("ship mesh task", "", "assets/models/ship/", "VulcanDKyrClass.obj");
    let rock1MeshTask = scene.assetsManager.addMeshTask("rock1 mesh task", "", "assets/models/rock1/", "Rock1.obj");
+   let stationMeshTask = scene.assetsManager.addMeshTask("station mesh task", "", "assets/models/station/", "station1.obj");
 
    shipMeshTask.onSuccess = function (task) {
       MESH_REPO.ship = BABYLON.MeshBuilder.CreateBox("shipAnchor", {height: 1, width: 2.9, depth: 3.5}, scene);
@@ -92,6 +98,17 @@ let createScene = function () {
       MESH_REPO.rock1.scaling.x = 0.1;
       MESH_REPO.rock1.scaling.y = 0.5;
       MESH_REPO.rock1.scaling.z = 0.2;
+   };
+   stationMeshTask.onSuccess = function (task) {
+      MESH_REPO.station = BABYLON.MeshBuilder.CreateBox("stationAnchor", {height: 1, width: 1, depth: 1}, scene);
+      MESH_REPO.station.isVisible = false;
+      task.loadedMeshes.forEach(function (mesh) {
+         mesh.scaling.x = 0.1;
+         mesh.scaling.y = 0.1;
+         mesh.scaling.z = 0.1;
+         mesh.isVisible = false;
+         mesh.setParent(MESH_REPO.station);
+      });
    };
 
    // Add lights to the scene

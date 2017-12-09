@@ -61,15 +61,13 @@ Asteroid = function (scene, meshInstance, mapSize, posZ) {
    }
 };
 
-Food = function (scene, mapSize, posZ) {
+Food = function (scene, meshInstance, mapSize, posZ) {
    BABYLON.Mesh.call(this, "Food " + posZ, scene);
-   let vd = BABYLON.VertexData.CreateSphere(0.5);
-   vd.applyToMesh(this, false);
-   vd.emissiveColor = new BABYLON.Color3(1, 0, 0);
    let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
    this.isAlive = true;
-   this.isVisible = true;
+   this.meshInstance = meshInstance;
    this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
+   this.meshInstance.position = this.position;
 };
 
 Player.prototype = Object.create(BABYLON.Mesh.prototype);
@@ -103,12 +101,13 @@ Asteroid.prototype.clean = function(){
 Food.prototype.clean = function(){
    if(this.position.z < player.position.z - 10){
       this.isAlive = false;
+      this.meshInstance.dispose();
       this.dispose();
    }
 }
 Food.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.position.z - player.position.z < 10 && this.intersectsMesh(MESH_REPO.ship, false)){
+   if(this.position.z - player.position.z < 10 && this.meshInstance.intersectsMesh(MESH_REPO.ship, false)){
       this.dies();
    }
 };
@@ -150,6 +149,7 @@ Asteroid.prototype.dies = function (){
 Food.prototype.dies = function (){
    COMMONS.stats.Food += 1;
    console.log("Food count: " + COMMONS.stats.Food );
+   this.meshInstance.dispose();
    this.isAlive = false;
 }
 Map.prototype.move = function (deltaTime) {
