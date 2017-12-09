@@ -11,7 +11,7 @@ const COMMONS = {
 
    },
    mapvalues:{
-      mapsize : 2420,
+      mapsize : 1820,
       scrollspeed : 25,
       fooddensity : 80,
       asteroiddensity : 20
