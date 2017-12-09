@@ -22,6 +22,7 @@ Player = function (size, scene) {
 
    //Player game attributes
    this.health = 100;
+   this.food = 0;
 
    
 };
@@ -64,12 +65,25 @@ Asteroid = function (scene, mapSize, posZ) {
    this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
 }
 
+Food = function (scene, mapSize, posZ) {
+   BABYLON.Mesh.call(this, "Food " + posZ, scene);
+   let vd = BABYLON.VertexData.CreateSphere(0.5);
+   vd.applyToMesh(this, false);
+   vd.emissiveColor = new BABYLON.Color3(1, 0, 0);
+   let posX = Math.floor(Math.random() * mapSize) - mapSize/2;
+   this.isAlive = true;
+   this.isVisible = true;
+   this.position = new BABYLON.Vector3(posX, this.position.y/2, posZ);
+}
+
 Player.prototype = Object.create(BABYLON.Mesh.prototype);
 Player.prototype.constructor = Player;
 Map.prototype = Object.create(BABYLON.Mesh.prototype);
 Map.prototype.constructor = Map;
 Asteroid.prototype = Object.create(BABYLON.Mesh.prototype);
 Asteroid.prototype.constructor = Asteroid;
+Food.prototype = Object.create(BABYLON.Mesh.prototype);
+Food.prototype.constructor = Food;
 
 Player.prototype.update = function (deltaTime) {
    this.move(deltaTime);
@@ -80,22 +94,43 @@ Map.prototype.update = function (deltaTime) {
 }
 Asteroid.prototype.update = function (deltaTime) {
    this.move(deltaTime);
-   if(this.intersectsMesh(player, true)){
-      this.dies();
+   if(this.intersectsMesh(player, false)){
+      //this.dies();
    }
    
 }
+Asteroid.prototype.clean = function(){
+   if(this.position.z < player.position.z - 10){
+      this.isAlive = false;
+      this.dispose();
+   }
+}
+Food.prototype.clean = function(){
+   if(this.position.z < player.position.z - 10){
+      this.isAlive = false;
+      this.dispose();
+   }
+}
+Food.prototype.update = function (deltaTime) {
+   this.move(deltaTime);
+};
 Asteroid.prototype.move = function (deltaTime) {
    if (this.position.z >= (-map.scaling.z)/2){
       this.position.z -= map.scrollSpeed * deltaTime 
    }
 }
+Food.prototype.move = function (deltaTime) {
+   if (this.position.z >= (-map.scaling.z)/2){
+      this.position.z -= map.scrollSpeed * deltaTime 
+   }
+}
 Asteroid.prototype.dies = function (){
-   this.isAlive = false;
+   //this.isAlive = false;
+   //this.dispose();
    //console.log(this);
    //this.isVisible = false;
-   player.health = player.health - 1;
-   console.log(player.health );
+   //player.health = player.health - 1;
+   //console.log(player.health );
 }
 Map.prototype.move = function (deltaTime) {
    if (map.position.z >= (-map.scaling.z)/2){

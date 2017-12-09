@@ -4,6 +4,7 @@ let player;
 let scene;
 let map;
 let asteroidField = [];
+let foodList = [];
 
 window.addEventListener("resize", function () { // Watch for browser/canvas resize events
    engine.resize();
@@ -41,7 +42,7 @@ function loadSounds() {
 let createScene = function () {
    // Create the scene space
    scene = new BABYLON.Scene(engine);
-   scene.debugLayer.show();
+   //scene.debugLayer.show();
    loadSounds();
 
    // Add lights to the scene
@@ -50,9 +51,12 @@ let createScene = function () {
 
    player = new Player(1, scene);
    map = new Map(scene);
-   for (let i = 2400; i = i - 10; i <= 0) {
+   for (let i = 2400;i = i - 25;i <= 0)  {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
+   for (let i = 2400;i = i - 100;i <= 0)  {
+        foodList.push(new Food(scene, map.scaling.x, i));
+     }
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
 
@@ -80,8 +84,15 @@ function main() {
       player.update(deltaTime);
       map.update(deltaTime);
       for (a of asteroidField) {
+         a.clean()
          a.update(deltaTime);
+         
       }
+      for (f of foodList) {
+        f.clean();
+        f.update(deltaTime);
+     }
+
       scene.render();
    });
 }
