@@ -157,6 +157,7 @@ function showTurnSummaryWindow(eventOption) {
    } else {
       let number = Math.abs(COMMONS.stats.Food);
       foodComm += "Brakło " + number + "t jedzenia. Z głodu umarło " + (number * 20000) + " ludzi.";
+      COMMONS.stats.Population -= number * 20000;
    }
 
    panel.addControl(getAlertDescription(eventOption.effectdescription + "\n\n" + foodComm));
