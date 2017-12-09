@@ -33,16 +33,20 @@ function loadSounds() {
               SOUNDS.spaceAmbient.setVolume(0);
               SOUNDS.spaceAmbient.play();
            }, {loop: true});
-   SOUNDS.menuSelect = new BABYLON.Sound("spaceAmbient", "assets/sounds/menu-select-00.wav", scene,
+   SOUNDS.gameOverSong = new BABYLON.Sound("gameOverSong", "assets/sounds/game-over-song.mp3", scene,
            function () {
-              SOUNDS.menuSelect.setVolume(0.2);
+              SOUNDS.gameOverSong.setVolume(0.6);
+           }, {});
+   SOUNDS.shipExplosion = new BABYLON.Sound("spaceAmbient", "assets/sounds/ship-destruction.wav", scene,
+           function () {
+              SOUNDS.menuSelect.setVolume(0.3);
            }, {});
 }
 
 let createScene = function () {
    // Create the scene space
    scene = new BABYLON.Scene(engine);
-   //scene.debugLayer.show();
+   scene.debugLayer.show();
    loadSounds();
 
    // Add lights to the scene
@@ -54,9 +58,9 @@ let createScene = function () {
    for (let i = 2400; i >= 0; i -= 10) {
       asteroidField.push(new Asteroid(scene, map.scaling.x, i));
    }
-   for (let i = 2400; i >= 0;  i -=100)  {
-        foodList.push(new Food(scene, map.scaling.x, i));
-     }
+   for (let i = 2400; i >= 0; i -= 100) {
+      foodList.push(new Food(scene, map.scaling.x, i));
+   }
    // Add a camera to the scene and attach it to the canvas
    let camera = new BABYLON.FreeCamera("UniversalCamera", new BABYLON.Vector3(0, player.position.z + 7, -20), scene);
 
@@ -90,15 +94,16 @@ function updateAsteroids(deltaTime) {
       }
    });
 }
+
 function updateFood(deltaTime) {
-        foodList.forEach(function (food, index) {
-           food.update(deltaTime);
-           if (food.isAlive === false) {
-                food.dispose();
-              foodList.splice(index, 1);
-           }
-        });
-     }
+   foodList.forEach(function (food, index) {
+      food.update(deltaTime);
+      if (food.isAlive === false) {
+         food.dispose();
+         foodList.splice(index, 1);
+      }
+   });
+}
 
 function render() {
    let firstFrame = true;
@@ -108,22 +113,24 @@ function render() {
       fadeInSound(deltaTime, SOUNDS.spaceAmbient, 0.3, 0.1);
       player.update(deltaTime);
       map.update(deltaTime);
-      if(!firstFrame){
-         updateAsteroids(deltaTime);
-         updateFood(deltaTime);
-      } else {
-         firstFrame = false;
+      if (player.isAlive) {
+         if (!firstFrame) {
+            updateAsteroids(deltaTime);
+            updateFood(deltaTime);
+         } else {
+            firstFrame = false;
+         }
       }
-      if(isLevelFinished){
-        player.dispose();
-        map.dispose();
-        foodList.forEach(function (food, index) {
-                food.dispose();
-        });
-        asteroidField.forEach(function (asteroid, index) {
-                asteroid.dispose();
-        });
-        showEventWindow();
+      if (isLevelFinished) {
+         player.dispose();
+         map.dispose();
+         foodList.forEach(function (food, index) {
+            food.dispose();
+         });
+         asteroidField.forEach(function (asteroid, index) {
+            asteroid.dispose();
+         });
+         showEventWindow();
       }
       scene.render();
    });

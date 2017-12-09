@@ -9,6 +9,8 @@ Player = function (size, scene) {
    vd.applyToMesh(this, false);
    this.scene = scene;
 
+   this.isAlive = true;
+
    // Its position is in (0,0,0)
    this.position.x = 0;
    this.position.z = 0;
@@ -128,6 +130,11 @@ Asteroid.prototype.dies = function (){
    if(COMMONS.stats.ShipHull <= 0) {
       player.isAlive = false;
       console.log("Ship is destroyed,game should end here !");
+      SOUNDS.music.stop();
+      SOUNDS.spaceAmbient.stop();
+      SOUNDS.shipExplosion.play();
+      SOUNDS.gameOverSong.play();
+      showShipDestroyedWindow();
    }
    console.log("Player Health count: " + COMMONS.stats.ShipHull  );
    this.isAlive = false;

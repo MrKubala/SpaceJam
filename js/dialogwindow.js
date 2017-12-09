@@ -31,7 +31,7 @@ function getAlertDescription(description) {
    let comDescriptionFrame = new BABYLON.GUI.Rectangle();
    comDescriptionFrame.paddingTop = 30;
    comDescriptionFrame.width = "1200px";
-   comDescriptionFrame.height = "300px";
+   comDescriptionFrame.height = "500px";
    comDescriptionFrame.cornerRadius = 6;
    comDescriptionFrame.color = "#24676d";
    comDescriptionFrame.thickness = 4;
@@ -151,4 +151,32 @@ function showTurnSummaryWindow(eventOptions) {
    panel.addControl(getAlertTitle(COMS.summary.title));
    panel.addControl(getAlertDescription(randomEvent.description));
    panel.addControl(getContinueButton());
+}
+
+function showShipDestroyedWindow() {
+   // GUI
+   let uiTexture = getCleanAdvancedTextureForUI();
+
+   // Background
+   let blackBackground = new BABYLON.GUI.Rectangle();
+   blackBackground.width = 1;
+   blackBackground.height = 1;
+   blackBackground.cornerRadius = 0;
+   blackBackground.thickness = 0;
+   blackBackground.background = "#bab9b9";
+   uiTexture.addControl(blackBackground);
+
+   let image = new BABYLON.GUI.Image("window_background", "assets/futureui1.png");
+   image.width = 0.95;
+   image.height = 0.95;
+   uiTexture.addControl(image);
+
+
+   let panel = new BABYLON.GUI.StackPanel();
+   panel.top = 60;
+   panel.verticalAlignment = BABYLON.GUI.Control.VERTICAL_ALIGNMENT_TOP;
+   uiTexture.addControl(panel);
+
+   panel.addControl(getAlertTitle(COMS.shipDestroyed.title));
+   panel.addControl(getAlertDescription(COMS.shipDestroyed.description));
 }
